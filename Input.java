@@ -4,6 +4,10 @@ public class Input {
     private String path;
     private String data;
 
+    public Input() {
+        
+    }
+
     public Input(String path) {
         setPath(path);
     }
