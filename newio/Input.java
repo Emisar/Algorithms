@@ -1,16 +1,12 @@
+package newio;
+
 import java.io.*;
+
+import exceptions.EpsilonIsNotSetException;
 
 public class Input {
     private String path;
-    private String data;
-
-    public Input() {
-        
-    }
-
-    public Input(String path) {
-        setPath(path);
-    }
+    private String[] data;
 
     private String readFile() {
         StringBuilder result = new StringBuilder();
@@ -28,19 +24,17 @@ public class Input {
 
     public void setPath(String path) { 
         this.path = path;
-        this.data = readFile();
+        this.data = readFile().split("\\r?\\n");
     }
 
-    public String getData() { return data; }
+    public String[] getData() { return data; }
 
     public double[][] getMatrix() {
-        String[] lines = data.split("\\r?\\n");
-
-        int n = Integer.parseInt(lines[0]);
+        int n = Integer.parseInt(data[0]);
         double[][] result = new double[n][n];
 
         for (int i = 1; i <= n; i++) {
-            String[] numbers = lines[i].split(" ");
+            String[] numbers = data[i].split(" ");
             for (int j = 0; j < numbers.length; j++) {
                 result[i - 1][j] = Double.parseDouble(numbers[j]);
             }
@@ -50,16 +44,24 @@ public class Input {
     }
 
     public double[] getVector() {
-        String[] lines = data.split("\\r?\\n");
-
-        int n = Integer.parseInt(lines[0]);
+        int n = Integer.parseInt(data[0]);
         double[] result = new double[n];
 
-        String[] numbers = lines[n + 1].split(" ");
+        String[] numbers = data[n + 1].split(" ");
         for (int i = 0; i < numbers.length; i++) {
             result[i] = Double.parseDouble(numbers[i]);
         }
 
         return result;
+    }
+
+    public double getEps() throws EpsilonIsNotSetException {
+        int n = Integer.parseInt(data[0]);
+        if (data.length > n + 2) {
+            return Double.parseDouble(data[data.length - 1]);
+        }
+        else {
+            throw new EpsilonIsNotSetException();
+        }
     }
 }
