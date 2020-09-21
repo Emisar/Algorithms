@@ -1,7 +1,7 @@
-import static newio.Output.*;
-
 import newio.Input;
-import tasks.*;
+
+import static newio.Output.*;
+import static tasks.Algorithms.*;
 
 public class Main {
     private static final Input INPUT = new Input();
@@ -13,40 +13,40 @@ public class Main {
 
         // Метод квадратного корня
         // Input data
-        INPUT.setPath("data/sqrt.txt");
+        INPUT.setPath("resources/sqrt.txt");
         matrix = INPUT.getMatrix();
         vector = INPUT.getVector();
         // Sqrt method
         printTitle("Метод квадратного корня");
-        Algorithms.sqrtMethod(matrix, vector);
+        sqrtMethod(matrix, vector);
 
         // Метод Холецкого
         // Input data
-        INPUT.setPath("data/cholesky.txt");
+        INPUT.setPath("resources/cholesky.txt");
         matrix = INPUT.getMatrix();
         vector = INPUT.getVector();
         // Cholesky method
         printTitle("Метод Холецкого");
-        Algorithms.cholesky(matrix, vector);
+        cholesky(matrix, vector);
 
         // Метод Якоби
         // Input data
-        INPUT.setPath("data/yakoby.txt");
+        INPUT.setPath("resources/yakoby.txt");
         matrix = INPUT.getMatrix();
         vector = INPUT.getVector();
         eps = INPUT.getEps();
         // Cholesky method
         printTitle("Метод Якоби");
-        Algorithms.yakoby(matrix, vector, eps);
+        yakoby(matrix, vector, eps);
 
         // Метод Зейделя
         // Input data
-        INPUT.setPath("data/seidel.txt");
+        INPUT.setPath("resources/seidel.txt");
         matrix = INPUT.getMatrix();
         vector = INPUT.getVector();
         eps = INPUT.getEps();
         // Cholesky method
         printTitle("Метод Зейделя");
-        Algorithms.seidel(matrix, vector, eps);
+        seidel(matrix, vector, eps);
     }
 }
