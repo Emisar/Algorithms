@@ -1,7 +1,7 @@
 import newio.Input;
+import tasks.*;
 
 import static newio.Output.*;
-import static tasks.Algorithms.*;
 
 public class Main {
     private static final Input INPUT = new Input();
@@ -18,7 +18,7 @@ public class Main {
         vector = INPUT.getVector();
         // Sqrt method
         printTitle("Метод квадратного корня");
-        sqrtMethod(matrix, vector);
+        Algorithms.sqrtMethod(matrix, vector);
 
         // Метод Холецкого
         // Input data
@@ -27,7 +27,7 @@ public class Main {
         vector = INPUT.getVector();
         // Cholesky method
         printTitle("Метод Холецкого");
-        cholesky(matrix, vector);
+        Algorithms.cholesky(matrix, vector);
 
         // Метод Якоби
         // Input data
@@ -37,7 +37,7 @@ public class Main {
         eps = INPUT.getEps();
         // Cholesky method
         printTitle("Метод Якоби");
-        yakoby(matrix, vector, eps);
+        Algorithms.yakoby(matrix, vector, eps);
 
         // Метод Зейделя
         // Input data
@@ -47,6 +47,9 @@ public class Main {
         eps = INPUT.getEps();
         // Cholesky method
         printTitle("Метод Зейделя");
-        seidel(matrix, vector, eps);
+        Algorithms.seidel(matrix, vector, eps);
+
+        System.out.println(Lab2.lagrange(4));
+        System.out.println(Lab2.newton(3));
     }
 }
