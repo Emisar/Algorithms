@@ -11,6 +11,7 @@ public class Main {
         double[] vector;
         double eps;
 
+        /*
         // Метод квадратного корня
         // Input data
         INPUT.setPath("resources/sqrt.txt");
@@ -48,8 +49,14 @@ public class Main {
         // Cholesky method
         printTitle("Метод Зейделя");
         Algorithms.seidel(matrix, vector, eps);
+        */
 
         System.out.println(Lab2.lagrange(4));
         System.out.println(Lab2.newton(3));
+        System.out.println(Lab2.newtonNodes(0.4));
+        for (double val : Lab2.minSqrt(-1)) {
+          System.out.print(val + " ");
+        }
+        
     }
 }
