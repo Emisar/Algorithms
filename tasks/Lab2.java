@@ -35,6 +35,15 @@ public class Lab2 {
         return result;
     }
 
+    public static double calcError(double x) {
+        double[] vector = {0.5, 0.25, 1};
+        double prod = 1;
+        for (double val : vector) {
+            prod *= x - val;
+        }
+        return 32 / Math.log(2) / factorial(vector.length) * Math.abs(prod);
+    }
+
     public static double newton(double x) {
         double[] vectorX = {1, 2, 4, 6};
         double[] vectorY = {2, -1, -2, -6};
@@ -103,11 +112,7 @@ public class Lab2 {
         return result;
     }
 
-    private static double fi(double x, int i) {
-      return (i == 1) ? 1 : (i == 2) ? x : Math.pow(x, 2);
-    }
-
-    public static double[] minSqrt(double x) {
+    public static double minSqrt(double x) {
         double[] vectorX = {-1, -0.5, 0, 0.5, 1};
         double[] vectorY = new double[vectorX.length];
 
@@ -121,7 +126,7 @@ public class Lab2 {
           for (int j = 0; j < m; j++) {
             double sum = 0;
             for (int k = 0; k < vectorX.length; k++) {
-              sum += fi(vectorX[k], i + 1) * fi(vectorX[k], j + 1);
+              sum += Math.pow(vectorX[k], i) * Math.pow(vectorX[k], j);
             }
             matrixC[i][j] = sum;
           }
@@ -131,14 +136,19 @@ public class Lab2 {
         for (int i = 0; i < m; i++) {
           double sum = 0;
           for (int k = 0; k < vectorX.length; k++) {
-            sum += fi(vectorX[k], i + 1) * vectorY[k];
+            sum += Math.pow(vectorX[k], i) * vectorY[k];
           }
           vectorB[i] = sum;
         }
 
-        double[][] A = inversion(matrixC, m);
+        double[][] invertedMatrix = inversion(matrixC, m);
 
-        double[] result = mult(A, vectorB);
+        double[] vectorA = mult(invertedMatrix, vectorB);
+
+        double result = 0;
+        for (int i = 0; i < vectorA.length; i++) {
+            result += vectorA[i] * Math.pow(x, i);
+        }
 
         return result;
     }

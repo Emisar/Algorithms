@@ -7,11 +7,11 @@ public class Main {
     private static final Input INPUT = new Input();
 
     public static void main(String[] args) throws Exception {
+        /*
         double[][] matrix;
         double[] vector;
         double eps;
 
-        /*
         // Метод квадратного корня
         // Input data
         INPUT.setPath("resources/sqrt.txt");
@@ -51,12 +51,22 @@ public class Main {
         Algorithms.seidel(matrix, vector, eps);
         */
 
-        System.out.println(Lab2.lagrange(4));
-        System.out.println(Lab2.newton(3));
-        System.out.println(Lab2.newtonNodes(0.4));
-        for (double val : Lab2.minSqrt(-1)) {
-          System.out.print(val + " ");
-        }
-        
+        // Пример 1 - Многочлен Лагранжа
+        double input = 4;
+        System.out.printf("%nМногочлен Лагранжа%nL(%.0f) = %.2f%n", input, Lab2.lagrange(input));
+        // Пример 2 - Погрешность
+        input = 0.9;
+        System.out.printf("%nПогрешность%ny(x) = log2(x)%nr(%.1f) = %.2f%n", input, Lab2.calcError(0.9));
+        // Пример 3 - Многочлен Ньютона
+        input = 3;
+        System.out.printf("%nМногочлен Ньютона%nN(%.0f) = %.2f%n", input, Lab2.newton(input));
+        // Пример 4 - Многочлен Ньютона для равноотстоящих узлов
+        input = 0.4;
+        System.out.printf("%nМногочлен Ньютона для равноотстоящих узлов%nN(%.1f) = %.2f%n", input, Lab2.newtonNodes(input));
+        // Пример 5 - Приближение функции методом наименьших квадратов
+        input = -0.5;
+        System.out.printf("%nПриближение функции методом наименьших квадратов%nfi(%.1f) = %.2f%n", input, Lab2.minSqrt(input));
+        // Пример 6 - Сплайн-интерполяция
+        System.out.println();
     }
 }
