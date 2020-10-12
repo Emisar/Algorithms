@@ -152,4 +152,30 @@ public class Lab2 {
 
         return result;
     }
+
+    public static double spline(double x) {
+      double[] vectorX = {1, 2, 3, 4, 5, 6};
+      double[] vectorY = {2, 3, 5, 3, 4, 6};
+
+      int n = vectorX.length;
+      double[] vectorB = new double[n];
+      double[] vectorA = new double[n - 1];
+
+      vectorB[0] = 0;
+      for (int i = 0; i < n - 1; i++) {
+        vectorB[i + 1] = (2 * (vectorY[i + 1] - vectorY[i])) / (vectorX[i + 1] - vectorX[i]) - vectorB[i];
+      }
+
+      for (int i = 0; i < n - 1; i++) {
+        vectorA[i] = (vectorB[i + 1] - vectorB[i]) / (2 * (vectorX[i + 1] - vectorX[i]));
+      }
+
+      double result = -1;
+      for (int i = 1; i < n; i++) {
+        if (x >= vectorX[i - 1] && x <= vectorX[i]) {
+          result = vectorA[i - 1] * (x - vectorX[i - 1]) * (x - vectorX[i - 1]) + vectorB[i - 1] * (x - vectorX[i - 1]) + vectorY[i - 1];
+        }
+      }
+      return result;
+    }
 }
