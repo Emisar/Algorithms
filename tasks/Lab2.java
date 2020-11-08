@@ -85,7 +85,7 @@ public class Lab2 {
 
         List<double[]> subList = new ArrayList<>();
 
-        for (int i = 0; i < vectorX.length; i++) {
+        for (int i = 0; i < vectorX.length - 1; i++) {
             double[] sub = new double[vectorX.length - 1 - i];
             if (i == 0) {
                 for (int j = 0; j < sub.length; j++) {
