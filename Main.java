@@ -71,6 +71,8 @@ public class Main {
         */
 
         // Пример 1
-        
+        System.out.println(Lab3.simpson());
+        System.out.println(Lab3.rectangle());
+        Lab3.gaus(2);
     }
 }
