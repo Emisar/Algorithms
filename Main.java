@@ -70,9 +70,19 @@ public class Main {
         System.out.printf("%nСплайн-интерполяция%ns(%.1f) = %.2f%n", input, Lab2.spline(input));
         */
 
-        // Пример 1
-        System.out.println(Lab3.simpson());
-        System.out.println(Lab3.rectangle());
-        Lab3.gaus(2);
+        // Пример 1 - Формула Симпсона
+        double[] vectorX = { 0.0, 0.5, 1.0 };
+        double[] vectorY = { -1.0, 1.0, 2.5 };
+        System.out.printf("%nФормула Симпсона%nI = %.2f %n", Lab3.simpson(vectorX, vectorY, (Double x) -> Math.pow(x, 2)) );
+
+        // Пример 2 - Формула средних прямоугольников
+        System.out.printf("%nФормула средних прямоугольников%nR = %.2f %n", Lab3.rectangle() );
+        
+        // Пример 3 - Квадратурная формула Гаусса
+        double[][] result = Lab3.gauss();
+        System.out.println("\nКвадратурная формула Гаусса");
+        System.out.printf("Узлы квадратуры: x1 = %.2f, x2 = %.2f %n", result[0][0], result[0][1]);
+        System.out.printf("Коэффициенты квадратуры: A1 = %.2f, A2 = %.2f %n", result[1][0], result[1][1]);
+        System.out.printf("Итоговый вид квадратуры: I[0, 1](f(x) * dx) = %.2f * f(%.2f) + %.2f * f(%.2f) %n", result[1][0], result[0][0], result[1][1], result[0][1]);
     }
 }

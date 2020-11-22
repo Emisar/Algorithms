@@ -1,54 +1,89 @@
 package tasks;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.function.Function;
 
 public class Lab3 {
-  public static double simpson() {
-    double[] vectorX = {0, 0.5, 1};
-    double[] vectorY = {-1, 1, 2.5};
+  private Lab3() {
+    //
+  }
 
-    double result = ((vectorX[2] - vectorX[0]) / 6);
-    result *= (Math.pow(vectorX[0], 2) * vectorY[0] + Math.pow(vectorX[1], 2) * vectorY[1] + Math.pow(vectorX[2], 2) * vectorY[2]);
+  // Формула Симпсона
+  public static double simpson(double[] vectorX, double[] vectorY, Function<Double, Double> otherFunc) {
+    double[] vectorC = {
+      (vectorX[2] - vectorX[0]) / 6, 
+      (vectorX[2] - vectorX[0]) / 2 * 3,
+      (vectorX[2] - vectorX[0]) / 6
+    };
+    double result = 0;
+
+    for (int i = 0; i < 3; i++) {
+      result += vectorC[i] * vectorY[i] * otherFunc.apply(vectorX[i]);
+    }
 
     return result;
   }
 
+  // Формула средних прямоугольников
   public static double rectangle() {
     double a = -1;
     double b = 0;
+    double result = 0;
 
-    double result = Math.pow(b - a, 3) / 12;
-    result *= Math.abs(Math.sin(a));
+    result = Math.pow(b - a, 3) / 12;
+    result *= Math.max(Math.abs(Math.sin(a)), Math.abs(Math.sin(b)));
 
     return result;
   }
 
-  public static double gaus(double n) {
-    double a = 0;
-    double b = 1;
-    double[][] matrix = new double[2][3];
+  // Нахождение корней квадратного уравнения
+  private static double[] quadEquation(double a, double b, double c) {
+    double d = Math.pow(b, 2) - 4 * a * c;
+    if (d < 0) return new double[]{};
+    return new double[]{
+      (-b + Math.sqrt(d)) / (2 * a), 
+      (-b - Math.sqrt(d)) / (2 * a)
+    };
+  }
 
+  // Вычисление значения интеграла вида x^n
+  private static double integralXN(double x, int n) {
+    return Math.pow(x, n + 1.0) / (n + 1);
+  }
+
+  public static double[][] gauss() {
+    double[][] matrix = new double[2][3];   // Матрица коэффициентов системы уравнений квадратуры Гаусса
+    double[] tempVector = new double[matrix[0].length];   // Дополнительный вектор для посчета значении U и V
+    double u;   // x0 + x1
+    double v;   // x0 * x1
+    double[] vectorX;   // Узлы Гауссовой квадратуры
+    double[] coef = new double[]{1, 1};   // Коэффициенты Гауссовой квадратуры
+
+    // Находим коэффициенты для системы уравнений узлов квадратуры Гаусса
     for (int i = 0; i < 2; i++) {
-      for (int j = 2; j >= 0; j--) {
-        matrix[i][j] = Math.pow(1, j - i + 2) / (j - i + 2);
-        System.out.print(matrix[i][j] + " ");
+      for (int j = 0; j < 3; j++) {
+        matrix[i][j] = integralXN(1, 2 - j + i);
       }
-      System.out.println();
     }
 
-    double[] temp = new double[3];
-    for (int i = 0; i < 3; i++) {
-      temp[i] = matrix[0][i] - (matrix[1][i] * 0.5);
-      System.out.print(temp[i] + " ");
+    // Вычисляем значение переменных U и V
+    for (int i = 0; i < tempVector.length; i++) {
+      tempVector[i] = matrix[0][i] - (matrix[1][i] * 2);
     }
-    System.out.println();
-    
-    double u = temp[0] / temp[1];
-    double v = matrix[1][0] + matrix[1][1] * u;
+    u = -tempVector[0] / tempVector[1];
+    v = (matrix[0][0] + u * matrix[0][1]) * -1;
 
-    System.out.println(u + " " + v);
+    // Находим решение системы (узлы Гауссовой квадратуры)
+    vectorX = quadEquation(1, u, v);
 
-    return -1;
+    // Определяем коэффициенты Гауссовой квадратуры
+    for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 2; j++) {
+        if (i == j) continue;
+        coef[i] *= ( 0.5 - vectorX[j] ) / ( vectorX[i] - vectorX[j] );
+      }
+    }
+
+    // Возвращаем найденные узлы и коэффициенты
+    return new double[][]{vectorX, coef};
   }
 }
