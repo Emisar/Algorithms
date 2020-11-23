@@ -8,22 +8,27 @@ public class Lab3 {
   }
 
   // Формула Симпсона
-  public static double simpson(double[] vectorX, double[] vectorY, Function<Double, Double> otherFunc) {
-    double[] vectorC = {
-      (vectorX[2] - vectorX[0]) / 6, 
-      (vectorX[2] - vectorX[0]) / 2 * 3,
-      (vectorX[2] - vectorX[0]) / 6
+  public static double simpson(double a, double b, Function<Double, Double> func) {
+    double[] vectorY = {
+      func.apply(a),
+      func.apply((a + b) / 2),
+      func.apply(b),
+    };
+    double[] vectorC = { 
+      (b - a) / 6, 
+      (b - a) / (2 * 3),
+      (b - a) / 6 
     };
     double result = 0;
 
     for (int i = 0; i < 3; i++) {
-      result += vectorC[i] * vectorY[i] * otherFunc.apply(vectorX[i]);
+      result += vectorC[i] * vectorY[i];
     }
 
     return result;
   }
 
-  // Формула средних прямоугольников
+  // Погрешность формулы средних прямоугольников
   public static double rectangle() {
     double a = -1;
     double b = 0;
@@ -38,11 +43,9 @@ public class Lab3 {
   // Нахождение корней квадратного уравнения
   private static double[] quadEquation(double a, double b, double c) {
     double d = Math.pow(b, 2) - 4 * a * c;
-    if (d < 0) return new double[]{};
-    return new double[]{
-      (-b + Math.sqrt(d)) / (2 * a), 
-      (-b - Math.sqrt(d)) / (2 * a)
-    };
+    if (d < 0)
+      return new double[] {};
+    return new double[] { (-b + Math.sqrt(d)) / (2 * a), (-b - Math.sqrt(d)) / (2 * a) };
   }
 
   // Вычисление значения интеграла вида x^n
@@ -50,13 +53,13 @@ public class Lab3 {
     return Math.pow(x, n + 1.0) / (n + 1);
   }
 
-  public static double[][] gauss() {
-    double[][] matrix = new double[2][3];   // Матрица коэффициентов системы уравнений квадратуры Гаусса
-    double[] tempVector = new double[matrix[0].length];   // Дополнительный вектор для посчета значении U и V
-    double u;   // x0 + x1
-    double v;   // x0 * x1
-    double[] vectorX;   // Узлы Гауссовой квадратуры
-    double[] coef = new double[]{1, 1};   // Коэффициенты Гауссовой квадратуры
+  public static double gauss(Function<Double, Double> func) {
+    double[][] matrix = new double[2][3]; // Матрица коэффициентов системы уравнений квадратуры Гаусса
+    double[] tempVector = new double[matrix[0].length]; // Дополнительный вектор для посчета значении U и V
+    double u; // x0 + x1
+    double v; // x0 * x1
+    double[] vectorX; // Узлы Гауссовой квадратуры
+    double[] coef = new double[] { 1, 1 }; // Коэффициенты Гауссовой квадратуры
 
     // Находим коэффициенты для системы уравнений узлов квадратуры Гаусса
     for (int i = 0; i < 2; i++) {
@@ -78,12 +81,19 @@ public class Lab3 {
     // Определяем коэффициенты Гауссовой квадратуры
     for (int i = 0; i < 2; i++) {
       for (int j = 0; j < 2; j++) {
-        if (i == j) continue;
-        coef[i] *= ( 0.5 - vectorX[j] ) / ( vectorX[i] - vectorX[j] );
+        if (i == j)
+          continue;
+        coef[i] *= (0.5 - vectorX[j]) / (vectorX[i] - vectorX[j]);
       }
     }
 
+    double result = 0;
+
+    for (int i = 0; i < 2; i++) {
+      result += coef[i] * func.apply(vectorX[i]);
+    }
+
     // Возвращаем найденные узлы и коэффициенты
-    return new double[][]{vectorX, coef};
+    return result;
   }
 }
